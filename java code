@@ -1,0 +1,158 @@
+//Q1: Merge two arrays by satisfying given constraints
+//Given two sorted arrays X[] and Y[] of size m and n each where m >= n and X[] has exactly n vacant cells,
+//merge elements of Y[] in their correct position in array X[], i.e., merge (X, Y) by keeping the sorted order.
+import java.util.Arrays;
+
+public class MergeArrays {
+    public static void mergeArrays(int[] X, int[] Y) {
+        int m = X.length;
+        int n = Y.length;
+        int i = m - n - 1;
+        int j = n - 1;
+        int k = m - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (X[i] > Y[j]) {
+                X[k] = X[i];
+                i--;
+            } else {
+                X[k] = Y[j];
+                j--;
+            }
+            k--;
+        }
+
+        while (j >= 0) {
+            X[k] = Y[j];
+            j--;
+            k--;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] X = {0, 2, 0, 3, 0, 5, 6, 0, 0};
+        int[] Y = {1, 8, 9, 10, 15};
+        mergeArrays(X, Y);
+        System.out.println(Arrays.toString(X));
+    }
+}
+
+
+
+
+
+
+//Q2:Find maximum sum path involving elements of given arrays
+//Given two sorted arrays of integers, find a maximum sum path involving elements of both arrays whose sum is maximum. 
+//We can start from either array, but we can switch between arrays only through its common elements.
+
+public class MaximumSumPath {
+    public static int maxSumPath(int[] X, int[] Y) {
+        int m = X.length;
+        int n = Y.length;
+        int i = 0, j = 0;
+        int sumX = 0, sumY = 0, maxSum = 0;
+
+        while (i < m && j < n) {
+            if (X[i] < Y[j]) {
+                sumX += X[i++];
+            } else if (X[i] > Y[j]) {
+                sumY += Y[j++];
+            } else {
+                maxSum += Math.max(sumX, sumY) + X[i];
+                sumX = 0;
+                sumY = 0;
+                i++;
+                j++;
+            }
+        }
+
+        while (i < m) {
+            sumX += X[i++];
+        }
+        while (j < n) {
+            sumY += Y[j++];
+        }
+
+        maxSum += Math.max(sumX, sumY);
+
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int[] X = {3, 6, 7, 8, 10, 12, 15, 18, 100};
+        int[] Y = {1, 2, 3, 5, 7, 9, 10, 11, 15, 16, 18, 25, 50};
+        int maxSum = maxSumPath(X, Y);
+        System.out.println("The maximum sum path is: " + maxSum);
+    }
+}
+//Q3:Write a Java Program to count the number of words in a string using HashMap.
+
+import java.util.HashMap;
+
+public class WordCount {
+    public static void main(String[] args) {
+        String str = "Hello world, this is a sample string. How many words are there in this string?";
+        
+        // Remove punctuation marks and convert the string to lowercase
+        str = str.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+        
+        // Split the string into words
+        String[] words = str.split("\\s+");
+        
+        // Create a HashMap to store word frequencies
+        HashMap<String, Integer> wordCountMap = new HashMap<>();
+        
+        // Count the occurrences of each word
+        for (String word : words) {
+            if (wordCountMap.containsKey(word)) {
+                // If the word is already in the map, increment its count
+                wordCountMap.put(word, wordCountMap.get(word) + 1);
+            } else {
+                // If the word is not in the map, add it with count 1
+                wordCountMap.put(word, 1);
+            }
+        }
+        
+        // Print the word count
+        System.out.println("Word count:");
+        for (String word : wordCountMap.keySet()) {
+            System.out.println(word + ": " + wordCountMap.get(word));
+        }
+    }
+}
+
+
+//Q4:Write a Java Program to find the duplicate characters in a string.
+import java.util.HashMap;
+
+public class DuplicateCharacters {
+    public static void main(String[] args) {
+        String str = "hello world";
+
+        // Remove spaces and convert the string to lowercase
+        str = str.replaceAll("\\s", "").toLowerCase();
+
+        // Create a HashMap to store character frequencies
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+
+        // Count the occurrences of each character
+        for (char c : str.toCharArray()) {
+            if (charCountMap.containsKey(c)) {
+                // If the character is already in the map, increment its count
+                charCountMap.put(c, charCountMap.get(c) + 1);
+            } else {
+                // If the character is not in the map, add it with count 1
+                charCountMap.put(c, 1);
+            }
+        }
+
+        // Print duplicate characters
+        System.out.println("Duplicate characters in the string:");
+        for (char c : charCountMap.keySet()) {
+            if (charCountMap.get(c) > 1) {
+                System.out.println(c + ": " + charCountMap.get(c));
+            }
+        }
+    }
+}
